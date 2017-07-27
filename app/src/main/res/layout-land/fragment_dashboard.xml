@@ -1,0 +1,86 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context="com.eventdee.stepswithbenefits.DashboardFragment">
+
+    <Toolbar
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:background="@color/translucent15Black">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="64dp"
+            android:layout_marginTop="64dp"
+            android:src="@drawable/hundred_people_doing_good" />
+    </Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/content"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="32dp"
+            android:layout_marginEnd="64dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="32dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_runningpeople" />
+
+        <com.eventdee.stepswithbenefits.ArcProgress
+            android:id="@+id/progressBar"
+            android:layout_width="230dp"
+            android:layout_height="230dp"
+            android:layout_centerInParent="true"
+            app:arc_angle="340"
+            app:arc_finishedStrokeWidth="3dp"
+            app:arc_knobRadius="7dp"
+            app:arc_max="7500"
+            app:arc_suffix_text=" "
+            app:arc_text_color="@android:color/white"
+            app:arc_text_size="48sp"
+            app:arc_top_text=" "
+            app:arc_top_text_color="@android:color/darker_gray"
+            app:arc_unfinishedStrokeWidth="1dp"
+            app:arc_unit_text="steps"
+            app:arc_unit_text_color="@android:color/white"
+            app:arc_unit_text_size="16sp" />
+
+        <TextView
+            android:id="@+id/amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="-8dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="$0"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/white"
+            android:textSize="30sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/amount"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:text="raised"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+</LinearLayout>
