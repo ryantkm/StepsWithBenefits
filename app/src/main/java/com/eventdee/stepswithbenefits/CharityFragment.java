@@ -1,17 +1,15 @@
 package com.eventdee.stepswithbenefits;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
-import com.eventdee.stepswithbenefits.dummy.DummyContent;
-import com.eventdee.stepswithbenefits.dummy.DummyContent.DummyItem;
+import java.util.ArrayList;
 
 /**
  * A fragment representing a list of Items.
@@ -20,6 +18,10 @@ import com.eventdee.stepswithbenefits.dummy.DummyContent.DummyItem;
  * interface.
  */
 public class CharityFragment extends Fragment {
+
+    private CharityAdapter mCharityAdapter;
+    private ArrayList<Charity> mCharityArray = new ArrayList<>();
+    private RecyclerView mPhotosRecyclerView;
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -51,6 +53,12 @@ public class CharityFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+
+        mCharityArray.add(new Charity("100 People Doing Good", "The Power of 100 People", R.drawable.hundred_people_doing_good, R.drawable.background_100_people));
+        mCharityArray.add(new Charity("Action for AIDS", "Doing It Better", R.drawable.logo_afa, R.drawable.background_afa));
+        mCharityArray.add(new Charity("Red Cross Singapore", "Donate Blood, Start Young", R.drawable.logo_red_cross, R.drawable.background_red_cross));
+        mCharityArray.add(new Charity("Animal Concern Research and Education Society", "A world where animals are treated with compassion and respect.", R.drawable.logo_acres, R.drawable.background_acres));
+        mCharityArray.add(new Charity("Make A Wish Foundation", "To reach every medically eligible child in Singapore", R.drawable.logo_make_a_wish, R.drawable.background_make_a_wish));
     }
 
     @Override
@@ -58,17 +66,28 @@ public class CharityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_charity_list, container, false);
 
+        mCharityAdapter = new CharityAdapter(getContext());
+        mCharityAdapter.setCharityArray(mCharityArray);
+
+        mPhotosRecyclerView = (RecyclerView) view.findViewById(R.id.list);
+        mPhotosRecyclerView.setAdapter(mCharityAdapter);
+
+//        StaggeredGridLayoutManager gaggeredGridLayoutManager = new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL);
+        mPhotosRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+
+
         // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-//            recyclerView.setAdapter(new CharityRecyclerViewAdapter(DummyContent.ITEMS, mListener));
-        }
+//        if (view instanceof RecyclerView) {
+//            Context context = view.getContext();
+//            RecyclerView recyclerView = (RecyclerView) view;
+//            if (mColumnCount <= 1) {
+//                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+//            } else {
+//                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+//            }
+////            recyclerView.setAdapter(new CharityRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+//        }
         return view;
     }
 

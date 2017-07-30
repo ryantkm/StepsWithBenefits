@@ -57,12 +57,12 @@ public class DashboardActivity extends AppCompatActivity {
                 // Action to perform when Home Menu item is selected.
                 pushFragment(new DashboardFragment());
                 break;
-            case R.id.navigation_home:
+            case R.id.navigation_charity:
                 Toast.makeText(this, "Charity is coming soon", Toast.LENGTH_SHORT).show();
                 // Action to perform when Bag Menu item is selected.
                 pushFragment(new CharityFragment());
                 break;
-            case R.id.navigation_notifications:
+            case R.id.navigation_me:
                 Toast.makeText(this, "My profile is coming soon", Toast.LENGTH_SHORT).show();
                 // Action to perform when Account Menu item is selected.
 //                pushFragment(new DashboardFragment());
