@@ -2,8 +2,11 @@ package com.eventdee.stepswithbenefits;
 
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +15,8 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.samsung.android.sdk.healthdata.HealthConnectionErrorResult;
 import com.samsung.android.sdk.healthdata.HealthConstants;
 import com.samsung.android.sdk.healthdata.HealthDataService;
@@ -21,11 +26,10 @@ import com.samsung.android.sdk.healthdata.HealthPermissionManager.PermissionKey;
 import com.samsung.android.sdk.healthdata.HealthPermissionManager.PermissionType;
 import com.samsung.android.sdk.healthdata.HealthResultHolder;
 
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import static android.R.attr.animation;
 
 
 /**
@@ -48,6 +52,10 @@ public class DashboardFragment extends Fragment {
 
     public static final String APP_TAG = "StepsWithBenefits";
     private final int MENU_ITEM_PERMISSION_SETTING = 1;
+
+    // Write a message to the database
+    FirebaseDatabase database;
+    DatabaseReference selectedTrackerDB;
 
     private static DashboardFragment mInstance = null;
     private HealthDataStore mStore;
@@ -87,6 +95,12 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        database = FirebaseDatabase.getInstance();
+        selectedTrackerDB = database.getReference("selectedTracker");
+
+        selectedTrackerDB.setValue("Samsung S Health");
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -224,7 +238,11 @@ private final HealthDataStore.ConnectionListener mConnectionListener = new Healt
         } else {
             mProgressBar.setProgress(Integer.parseInt(count));
         }
-
+        SharedPreferences sharedPref = getContext().getSharedPreferences("dailySteps", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("steps", count);
+        editor.putString("date", Calendar.getInstance().getTime().toString());
+        editor.commit();
     }
 
     public static DashboardFragment getInstance() {

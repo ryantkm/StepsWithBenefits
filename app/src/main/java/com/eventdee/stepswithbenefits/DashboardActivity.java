@@ -1,5 +1,9 @@
 package com.eventdee.stepswithbenefits;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -11,7 +15,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 public class DashboardActivity extends AppCompatActivity {
+
+    private AlarmManager alarmMgr;
+    private PendingIntent alarmIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +29,27 @@ public class DashboardActivity extends AppCompatActivity {
 
         setupNavigationView();
 
+        alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, EndDayReceiver.class);
+        alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+
+        // Set the alarm to start at 12am
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+
+        // setRepeating() lets you specify a precise custom interval--in this case,
+        // 1 day
+        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, alarmIntent);
+
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTimeInMillis(System.currentTimeMillis());
+//        calendar.set(Calendar.HOUR_OF_DAY, 3);
+//        calendar.set(Calendar.MINUTE, 50);
+//
+//        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+//                1000 * 30 * 1, alarmIntent);
 
     }
 

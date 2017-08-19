@@ -236,8 +236,6 @@ public class ArcProgress extends View {
     public void setProgress(int progress) {
         this.progress = progress;
         if (this.progress >= getMax()) {
-//            this.progress %= getMax();
-            this.progress = getMax();
             finishedStrokeColor = Color.rgb(66, 145, 241);
         } else {
             finishedStrokeColor = default_finished_color;
@@ -409,7 +407,14 @@ public class ArcProgress extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         float startAngle = 270 - arcAngle / 2f;
-        float finishedSweepAngle = progress / (float) getMax() * arcAngle;
+        float finishedSweepAngle;
+
+        if (progress >= getMax()) {
+            finishedSweepAngle = arcAngle;
+        } else {
+            finishedSweepAngle = progress / (float) getMax() * arcAngle;
+        }
+
         float finishedStartAngle = startAngle;
         if(progress == 0) finishedStartAngle = 0.01f;
 
